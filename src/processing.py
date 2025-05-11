@@ -13,7 +13,7 @@ def filter_by_state(dict_list: list[dict], state_key: str = 'EXECUTED') -> list[
     return executed_list
 
 
-def sort_by_date(dict_list: list[dict], sort_way: str = "DESC") -> list[dict]:
+def sort_by_date(dict_list: list[dict], sort_way: bool = True) -> list[dict]:
     """
     Функция возвращает новый список, отсортированный по ключу date.
     :param dict_list: Список словарей
@@ -22,9 +22,8 @@ def sort_by_date(dict_list: list[dict], sort_way: str = "DESC") -> list[dict]:
     """
     # параметры для работы функции
     date_format = "%Y-%m-%dT%H:%M:%S.%f"
-    sort_direction = True if sort_way == "DESC" else False
 
     # Сортировка по возрастанию даты
-    sorted_list = sorted(dict_list, key=lambda x: datetime.strptime(x["date"], date_format), reverse=sort_direction)
+    sorted_list = sorted(dict_list, key=lambda x: datetime.strptime(x["date"], date_format), reverse=sort_way)
 
     return sorted_list
