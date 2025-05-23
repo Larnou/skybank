@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def filter_by_state(dict_list: list[dict], state_key: str = 'EXECUTED') -> list[dict]:
+def filter_by_state(dict_list: list[dict], state_key: str = "EXECUTED") -> list[dict]:
     """
     Функция возвращает новый список словарей, содержащий только те словари, у которых ключ state
     соответствует указанному значению state_key.
@@ -24,6 +24,8 @@ def sort_by_date(dict_list: list[dict], sort_way: bool = True) -> list[dict]:
     date_format = "%Y-%m-%dT%H:%M:%S.%f"
 
     # Сортировка по возрастанию даты
-    sorted_list = sorted(dict_list, key=lambda x: datetime.strptime(x["date"], date_format), reverse=sort_way)
-
-    return sorted_list
+    try:
+        sorted_list = sorted(dict_list, key=lambda x: datetime.strptime(x["date"], date_format), reverse=sort_way)
+        return sorted_list
+    except Exception as e:
+        raise ValueError('Проверьте правильность введённых дат.\nФормат должен быть: "%Y-%m-%dT%H:%M:%S.f"') from e
