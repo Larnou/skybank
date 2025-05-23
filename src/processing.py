@@ -23,7 +23,12 @@ def sort_by_date(dict_list: list[dict], sort_way: bool = True) -> list[dict]:
     # параметры для работы функции
     date_format = "%Y-%m-%dT%H:%M:%S.%f"
 
-    # Сортировка по возрастанию даты
-    sorted_list = sorted(dict_list, key=lambda x: datetime.strptime(x["date"], date_format), reverse=sort_way)
 
-    return sorted_list
+    # Сортировка по возрастанию даты
+    try:
+        sorted_list = sorted(dict_list, key=lambda x: datetime.strptime(x["date"], date_format), reverse=sort_way)
+        return sorted_list
+    except:
+        raise ValueError('Проверьте правильность введённых дат.\nФормат должен быть: "%Y-%m-%dT%H:%M:%S.f"')
+
+

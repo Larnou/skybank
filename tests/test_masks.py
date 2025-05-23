@@ -42,6 +42,8 @@ def test_get_mask_card_number(card_number_example, card_number_result):
     'Счет abc123!!аав',               # содержит буквы
     'Счет',                           # пустой номер
     '',                               # пустая строка
+    'Счет 73654108430135874305kek',
+    'Счет 73654108430135874kek',
 ])
 
 def test_get_masks_account_number_quantity(account_number):
