@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.fixture
 def state_dictionary_input():
     return [
@@ -8,7 +9,7 @@ def state_dictionary_input():
         {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
         {"id": 3412673132, "state": "DELAYED", "date": "2025-05-23T23:07:33.419441"},
-        {"id": 24112024, "state": "REORDERED", "date": "2025-05-23T23:07:33.419441"}
+        {"id": 24112024, "state": "REORDERED", "date": "2025-05-23T23:07:33.419441"},
     ]
 
 
@@ -20,5 +21,5 @@ def state_dictionary_input_incorrect():
         {"id": 594226727, "state": "CANCELED", "date": "05-2024-04T12:26:18"},
         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
         {"id": 3412673132, "state": "DELAYED", "date": "2025-05-23T23:07:33.419441"},
-        {"id": 24112024, "state": "REORDERED", "date": "05-2024-04"}
+        {"id": 24112024, "state": "REORDERED", "date": "05-2024-04"},
     ]
