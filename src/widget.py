@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from masks import get_mask_account, get_mask_card_number
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(account_card: str) -> str:
@@ -9,25 +9,33 @@ def mask_account_card(account_card: str) -> str:
     :param account_card:
     :return:
     """
-    if account_card[:4].lower() == "счет":
-        masked_number = get_mask_account(account_card)
-    else:
-        masked_number = get_mask_card_number(account_card)
+    card_digits_part = account_card.split(" ")[-1]
+    digits_count = len([char.isdigit() for char in card_digits_part if char.isdigit()])
 
-    return masked_number
+    if account_card.split(" ")[0].lower() == "счет" and digits_count == 20:
+        masked_number = get_mask_account(account_card)
+        return masked_number
+    elif digits_count == 16:
+        masked_number = get_mask_card_number(account_card)
+        return masked_number
+    else:
+        raise ValueError("Проверьте правильность введённых реквизитов карты.")
 
 
 def get_date(date: str) -> str:
     """
-    Функция get_date принимает на вход дату в формате ISO8601 '%Y-%m-%dT%H:%M:%S.ffffff' и возвращает
+    Функция get_date принимает на вход дату в формате ISO8601 '%Y-%m-%dT%H:%M:%S.f' и возвращает
     в формате '%d.%m.%Y'.
     :param date:
     :return:
     """
     # Time-форматы
     date_format = "%d.%m.%Y"
+    date_iso_format = "%Y-%m-%dT%H:%M:%S.%f"
 
-    date_isoformat = datetime.fromisoformat(date)
-    formated_date = datetime.strftime(date_isoformat, date_format)
-
-    return str(formated_date)
+    try:
+        date_isoformat = datetime.strptime(date, date_iso_format)
+        formated_date = datetime.strftime(date_isoformat, date_format)
+        return str(formated_date)
+    except Exception as e:
+        raise ValueError('Проверьте правильность введённой даты.\nФормат должен быть: "%Y-%m-%dT%H:%M:%S.f"') from e
