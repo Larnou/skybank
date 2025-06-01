@@ -13,7 +13,7 @@ def write_log_to_file(filename: str, data_log: list) -> None:
             f.write(line + "\n")
 
 
-def log(filename: str | None) -> Callable:
+def log(filename: str | None = None) -> Callable:
     """
     Декоратор, позволяющий проанализировать и отследить поведение функции.
     :param filename: Путь до файла, в котором будут записаны логи.
