@@ -1,3 +1,5 @@
+from src.decorators import log
+
 def get_mask_card_number(card_number: str) -> str:
     """
     Функция get_mask_card_number принимает на вход номер карты и возвращает ее маску. Номер карты замаскирован
@@ -15,7 +17,7 @@ def get_mask_card_number(card_number: str) -> str:
     else:
         raise ValueError("Проверьте правильность введённого номера карты.")
 
-
+@log(filename='../logs/log.txt')
 def get_mask_account(account_number: str) -> str:
     """
     Функция get_mask_account принимает на вход номер счета и возвращает его маску. Номер счета замаскирован
