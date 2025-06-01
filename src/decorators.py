@@ -1,14 +1,24 @@
-from builtins import function
 from typing import Callable, Any
 
 
 def write_log_to_file(filename: str, data_log: list) -> None:
+    """
+    Записывает данные data_log в файл по пути filename.
+    :param filename: Путь до файла, в котором будут записаны логи.
+    :param data_log: Данные логирования работы.
+    :return:
+    """
     with open(filename, "w", encoding="utf-8") as f:
         for line in data_log:
             f.write(line + "\n")
 
 
 def log(filename: str | None) -> Callable:
+    """
+    Декоратор, позволяющий проанализировать и отследить поведение функции.
+    :param filename: Путь до файла, в котором будут записаны логи.
+    :return:
+    """
     def func_decorator(func) -> Any:
         # @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
