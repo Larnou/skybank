@@ -24,6 +24,6 @@ def isort(ctx):
     ctx.run("poetry run isort src/")
     ctx.run("poetry run isort tests/")
 
-# @task
-# def test(ctx):
-#     ctx.run("pytest tests/")
+@task
+def report(ctx):
+    ctx.run("poetry run pytest --cov=src --cov-report=html")
