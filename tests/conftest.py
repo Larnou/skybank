@@ -176,38 +176,17 @@ def double_list_of_transactions():
 def empty_list_of_transactions():
     return ()
 
+
 @pytest.fixture
 def example_of_usd_transactions():
-    return {
-    "id": 361044570,
-    "state": "EXECUTED",
-    "date": "2018-03-02T02:03:11.563721",
-    "operationAmount": {
-      "amount": "7484.91",
-      "currency": {
-        "name": "USD",
-        "code": "USD"
-      }
-    },
-    "description": "Перевод организации",
-    "from": "Счет 96008924215040031147",
-    "to": "Счет 30377212495530283001"
-  },
+    return {"operationAmount": {"amount": "100", "currency": {"name": "USD", "code": "USD"}}}
+
 
 @pytest.fixture
 def example_of_rub_transactions():
-    return {
-    "id": 407169720,
-    "state": "EXECUTED",
-    "date": "2018-02-03T14:52:08.093722",
-    "operationAmount": {
-      "amount": "67011.26",
-      "currency": {
-        "name": "руб.",
-        "code": "RUB"
-      }
-    },
-    "description": "Перевод с карты на карту",
-    "from": "MasterCard 4047671689373225",
-    "to": "Maestro 3806652527413662"
-  },
+    return {"operationAmount": {"amount": "1000", "currency": {"name": "руб.", "code": "RUB"}}}
+
+
+@pytest.fixture
+def example_of_error_transactions():
+    return {"operationAmount": {"amount": "1000", "currency": {"name": "руб.", "code": "OOPWS"}}}

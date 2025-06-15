@@ -1,4 +1,4 @@
-from typing import Callable, Any
+from typing import Any, Callable
 
 
 def write_log_to_file(filename: str, data_log: list) -> None:
@@ -19,6 +19,7 @@ def log(filename: str | None = None) -> Callable:
     :param filename: Путь до файла, в котором будут записаны логи.
     :return:
     """
+
     def func_decorator(func) -> Any:
         # @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
