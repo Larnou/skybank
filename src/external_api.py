@@ -6,7 +6,7 @@ from src.utils import read_json
 import os
 from dotenv import load_dotenv
 
-operations = read_json('../data/operations.json')
+# operations = read_json('../data/operations.json')
 
 
 def convert_transactions_to_rub(transaction: dict):
@@ -39,5 +39,5 @@ def convert_transactions_to_rub(transaction: dict):
         raise ValueError(f"В транзакции отсутствует поле: {e}. Данные: {transaction}") from e
 
 
-result = convert_transactions_to_rub(operations[0])
-print(f'{result} рублей')
+# result = convert_transactions_to_rub(operations[1])
+# print(f'{result} рублей')

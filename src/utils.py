@@ -10,7 +10,3 @@ def read_json(filepath: str) -> list[Any] | Any:
         return data
     except:
         return []
-
-
-# operations = read_json('../da1ta/operations.json')
-# print(json.dumps(operations, indent=4, ensure_ascii=False))
