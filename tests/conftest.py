@@ -175,3 +175,18 @@ def double_list_of_transactions():
 @pytest.fixture
 def empty_list_of_transactions():
     return ()
+
+
+@pytest.fixture
+def example_of_usd_transactions():
+    return {"operationAmount": {"amount": "100", "currency": {"name": "USD", "code": "USD"}}}
+
+
+@pytest.fixture
+def example_of_rub_transactions():
+    return {"operationAmount": {"amount": "1000", "currency": {"name": "руб.", "code": "RUB"}}}
+
+
+@pytest.fixture
+def example_of_error_transactions():
+    return {"operationAmount": {"amount": "1000", "currency": {"name": "руб.", "code": "OOPWS"}}}
