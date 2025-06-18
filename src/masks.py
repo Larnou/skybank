@@ -1,4 +1,3 @@
-import logging
 from src.utils import create_logger
 
 
