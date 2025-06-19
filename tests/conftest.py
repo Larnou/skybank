@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import pytest
 
 
@@ -190,3 +192,15 @@ def example_of_rub_transactions():
 @pytest.fixture
 def example_of_error_transactions():
     return {"operationAmount": {"amount": "1000", "currency": {"name": "руб.", "code": "OOPWS"}}}
+
+
+@pytest.fixture
+def mock_read_csv():
+    with patch("src.parser.pd.read_csv") as mock:
+        yield mock
+
+
+@pytest.fixture
+def mock_read_excel():
+    with patch("src.parser.pd.read_excel") as mock:
+        yield mock
