@@ -1,28 +1,45 @@
 import json
 import logging
+from pathlib import Path
 from typing import Any
 
 
-def create_logger(logger_name, filename) -> logging.Logger:
+def create_logger(logger_name: str, filename: str) -> logging.Logger:
     """
-    Создание именованного логера с записью в определенёый файл.
-    :param logger_name: Название именованного логера.
-    :param filename: Названия файла, в который будут записаны результаты логирования.
-    :return: Именованный логер logger_name
+    Создание именованного логгера с записью в указанный файл.
+    Автоматически создает директорию для логов, если она не существует.
+
+    :param logger_name: Название логгера
+    :param filename: Имя файла логов (без расширения)
+    :return: Настроенный логгер
     """
+    # 1. Создаем путь к директории логов
+    log_dir = Path(__file__).parent.parent / "logs"
+
+    # 2. Создаем директорию, если она не существует
+    log_dir.mkdir(parents=True, exist_ok=True)
+
+    # 3. Формируем полный путь к файлу
+    log_file = log_dir / f"{filename}.log"
+
+    # 4. Создаем логгер
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
 
-    # Основной файл (все сообщения)
-    main_handler = logging.FileHandler(filename=f"../logs/{filename}.log", mode="w", encoding="utf-8")
+    # 5. Удаляем старые обработчики (предотвращает дублирование)
+    if logger.hasHandlers():
+        logger.handlers.clear()
 
-    # Настройка форматтеров
-    main_handler.setFormatter(
-        logging.Formatter("[%(levelname)s] %(asctime)s - module %(filename)s in %(funcName)s: %(message)s")
-    )
+    # 6. Создаем обработчик для файла
+    file_handler = logging.FileHandler(filename=log_file, mode="w", encoding="utf-8")
 
-    # Добавление обработчиков
-    logger.addHandler(main_handler)
+    # 7. Настраиваем форматтер
+    formatter = logging.Formatter("[%(levelname)s] %(asctime)s - module %(filename)s in %(funcName)s: %(message)s")
+    file_handler.setFormatter(formatter)
+
+    # 8. Добавляем обработчик к логгеру
+    logger.addHandler(file_handler)
+
     return logger
 
 
