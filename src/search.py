@@ -1,9 +1,10 @@
 import re
-from collections import defaultdict
+from collections import defaultdict, Counter
+
 from src.parser import read_file_from_csv
 
 
-# data = read_file_from_csv('../data/transactions.csv')
+data = read_file_from_csv('../data/transactions.csv')
 
 def process_bank_search(data:list[dict], search_string:str) -> list[dict]:
     """
@@ -23,11 +24,11 @@ def process_bank_search(data:list[dict], search_string:str) -> list[dict]:
     result = [operation for operation in data if pattern.search(operation.get("description"))]
     return result
 
-# categories = ['Перевод организации', 'Перевод с карты на карту', 'Открытие вклада']
+
 
 def process_bank_operations(data:list[dict], categories:list) -> dict:
     """
-    Подсчитывает количество операций по категориям с использованием defaultdict.
+    Подсчитывает количество операций по категориям
 
     Args:
         data: Список операций
@@ -37,20 +38,14 @@ def process_bank_operations(data:list[dict], categories:list) -> dict:
         Словарь с количеством операций по категориям
     """
 
-    # Инициализируем словарь с нулевыми значениями
-    result = defaultdict(int)
+    # Извлекаем все значения description, игнорируя отсутствующие ключи
+    descriptions = [operation.get('description') for operation in data]
 
-    # Компилируем регулярные выражения для всех категорий
-    patterns = {
-        category: re.compile(rf"\b{re.escape(category)}\b", re.IGNORECASE) for category in categories
-    }
+    # Создаем счетчик и преобразуем в обычный словарь
+    counter_dict = dict(Counter(descriptions))
 
-    # Подсчитываем операции
-    for operation in data:
-        description = operation.get("description", "")
-        for category, pattern in patterns.items():
-            if pattern.search(description):
-                result[category] += 1
+    return {category: counter_dict[category] for category in categories}
 
-    # Возвращаем обычный словарь с нулями для отсутствующих категорий
-    return {category: result[category] for category in categories}
+# categories = ['Перевод организации', 'Перевод с карты на карту', 'Открытие вклада']
+# res = process_bank_operations(data, categories)
+# print(res)
