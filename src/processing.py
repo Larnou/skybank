@@ -33,9 +33,9 @@ def sort_by_date(dict_list: list[dict], sort_way: bool = True) -> list[dict]:
             key=lambda x: datetime.strptime(
                 # Если это Timestamp - преобразуем в строку, иначе используем как есть
                 x["date"].strftime(date_format) if isinstance(x["date"], pd.Timestamp) else x["date"],
-                date_format
+                date_format,
             ),
-            reverse=sort_way
+            reverse=sort_way,
         )
         return sorted_list
     except Exception as e:

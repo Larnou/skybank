@@ -1,3 +1,3 @@
-from src.main_utils import  show_filtered_transactions
+from src.main_utils import main
 
-show_filtered_transactions()
+main()
