@@ -155,15 +155,15 @@ def main():
     program = "Программа"
 
     # Получение файлов настроек для отобрежения файлов
-    # parameters = get_parameters(user, program)
+    parameters = get_parameters(user, program)
 
     # Расскоментировать для быстрого тестирования различных наборов параметров
-    parameters = {'file_type': 'XLSX',
-                  'filter_status': 'EXECUTED',
-                  'sort_by_date': True,
-                  'sort': False,
-                  'show_rub_transactions': True,
-                  'filter_word': 'организ'}
+    # parameters = {'file_type': 'XLSX',
+    #               'filter_status': 'EXECUTED',
+    #               'sort_by_date': True,
+    #               'sort': False,
+    #               'show_rub_transactions': True,
+    #               'filter_word': 'организ'}
 
     # parameters = {'file_type': 'XLSX',
     #               'filter_status': 'EXECUTED',
