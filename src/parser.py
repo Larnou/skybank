@@ -32,3 +32,6 @@ def read_file_from_xlsx(filename: str):
     operations = xlsx_data.to_dict("records")
 
     return operations
+
+    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # DATA_PATH = os.path.join(BASE_DIR, "data", f"{filename}")

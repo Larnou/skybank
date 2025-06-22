@@ -1,3 +1,5 @@
+from numpy import nan
+
 from src.generators import filter_by_currency
 from src.parser import read_file_from_csv, read_file_from_xlsx
 from src.processing import filter_by_state, sort_by_date
@@ -28,12 +30,17 @@ def welcome_user(user: str, program: str):
     for i in range(1, len(menu_variants) + 1):
         print(menu_variants.get(i))
 
-    user_choice = int(input(f"\n{user}: "))
-    program_answer = menu_variants.get(user_choice).split(" ")[-1][:-1]
-    print(f"\n{program}: Для обработки выбран {program_answer}.")
+    while True:
+        user_choice = int(input(f"\n{user}: "))
 
-    file_type = program_answer.split("-")[0]
-    return file_type
+        if user_choice in [1, 2, 3]:
+            program_answer = menu_variants.get(user_choice).split(" ")[-1][:-1]
+            print(f"\n{program}: Для обработки выбран {program_answer}.")
+
+            file_type = program_answer.split("-")[0]
+            return file_type
+        else:
+            print(f"{program}: Выбран неправильный вариант. Попробуйте снова.")
 
 
 def get_filter_status(user: str, program: str):
@@ -72,28 +79,25 @@ def get_parameters(user: str, program: str):
     filter_status = get_filter_status(user, program)
 
     # Дополнительные вопросы
-
-    print(f"\n{program}: Отсортировать операции по дате? Да/Нет\n")
-    user_choice_datasort = input(f"{user}: ").lower()
-    sort_by_date = True if user_choice_datasort == "да" else False
-
-    if sort_by_date:
-        print(f"\n{program}: Отсортировать по возрастанию или по убыванию?\n")
-        user_choice_sort = input(f"{user}: ").lower()
-        sort = True if user_choice_sort in ["возрастанию", "возрастание", "по возрастанию"] else False
-
-    print(f"\n{program}: Выводить только рублевые транзакции? Да/Нет\n")
-    user_choice_rub = input(f"{user}: ").lower()
-    show_rub_transactions = True if user_choice_rub == "да" else False
-
     # На данном этапе получены все обязательные ответы, которые содержат ответ.
     parameters = {
         "file_type": file_type,
         "filter_status": filter_status,
-        "sort_by_date": sort_by_date,
-        "sort": sort,
-        "show_rub_transactions": show_rub_transactions,
     }
+
+    print(f"\n{program}: Отсортировать операции по дате? Да/Нет\n")
+    user_choice_datasort = input(f"{user}: ").lower()
+    if user_choice_datasort == "да":
+        print(f"\n{program}: Отсортировать по возрастанию или по убыванию?\n")
+        user_choice_sort = input(f"{user}: ").lower()
+        sort_status = True if user_choice_sort in ["возрастанию", "возрастание", "по возрастанию"] else False
+        parameters["sort_by_date"] = True
+        parameters["sort"] = sort_status
+
+    print(f"\n{program}: Выводить только рублевые транзакции? Да/Нет\n")
+    user_choice_rub = input(f"{user}: ").lower()
+    show_rub_transactions = True if user_choice_rub == "да" else False
+    parameters["show_rub_transactions"] = show_rub_transactions
 
     print(f"\n{program}: Отфильтровать список транзакций по определенному слову в описании? Да/Нет\n")
     user_choice_filter_description = input(f"{user}: ").lower()
@@ -132,7 +136,7 @@ def print_transaction_info(transaction: dict):
         amount = transaction.get("amount")
 
     print(f"\n{date} {description}")
-    if "from" in transaction:
+    if "from" in transaction and transaction.get("from") is not nan:
         account_from = mask_account_card(transaction.get("from"))
         print(f"{account_from} -> {account_to}")
     else:
@@ -151,15 +155,21 @@ def main():
     program = "Программа"
 
     # Получение файлов настроек для отобрежения файлов
-    parameters = get_parameters(user, program)
+    # parameters = get_parameters(user, program)
 
     # Расскоментировать для быстрого тестирования различных наборов параметров
+    parameters = {'file_type': 'XLSX',
+                  'filter_status': 'EXECUTED',
+                  'sort_by_date': True,
+                  'sort': False,
+                  'show_rub_transactions': True,
+                  'filter_word': 'организ'}
+
     # parameters = {'file_type': 'XLSX',
     #               'filter_status': 'EXECUTED',
     #               'sort_by_date': True,
     #               'sort': False,
-    #               'show_rub_transactions': True,
-    #               'filter_word': 'организ'}
+    #               'show_rub_transactions': True}
 
     # 1. Чтение файла
     if parameters["file_type"] == "JSON":

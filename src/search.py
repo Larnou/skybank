@@ -1,10 +1,6 @@
 import re
 from collections import Counter
 
-from src.parser import read_file_from_csv
-
-data = read_file_from_csv("../data/transactions.csv")
-
 
 def process_bank_search(data: list[dict], search_string: str) -> list[dict]:
     """
@@ -44,8 +40,3 @@ def process_bank_operations(data: list[dict], categories: list) -> dict:
     counter_dict = dict(Counter(descriptions))
 
     return {category: counter_dict[category] for category in categories}
-
-
-# categories = ['Перевод организации', 'Перевод с карты на карту', 'Открытие вклада']
-# res = process_bank_operations(data, categories)
-# print(res)
