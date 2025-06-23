@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import pandas as pd
+
 
 def filter_by_state(dict_list: list[dict], state_key: str = "EXECUTED") -> list[dict]:
     """
@@ -25,7 +27,16 @@ def sort_by_date(dict_list: list[dict], sort_way: bool = True) -> list[dict]:
 
     # Сортировка по возрастанию даты
     try:
-        sorted_list = sorted(dict_list, key=lambda x: datetime.strptime(x["date"], date_format), reverse=sort_way)
+        # Преобразуем все значения дат в строки перед сортировкой
+        sorted_list = sorted(
+            dict_list,
+            key=lambda x: datetime.strptime(
+                # Если это Timestamp - преобразуем в строку, иначе используем как есть
+                x["date"].strftime(date_format) if isinstance(x["date"], pd.Timestamp) else x["date"],
+                date_format,
+            ),
+            reverse=sort_way,
+        )
         return sorted_list
     except Exception as e:
         raise ValueError('Проверьте правильность введённых дат.\nФормат должен быть: "%Y-%m-%dT%H:%M:%S.f"') from e

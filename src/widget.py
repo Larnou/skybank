@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import pandas as pd
+
 from src.masks import get_mask_account, get_mask_card_number
 
 
@@ -34,8 +36,14 @@ def get_date(date: str) -> str:
     date_iso_format = "%Y-%m-%dT%H:%M:%S.%f"
 
     try:
-        date_isoformat = datetime.strptime(date, date_iso_format)
-        formated_date = datetime.strftime(date_isoformat, date_format)
-        return str(formated_date)
+        # Если передан Timestamp
+        if isinstance(date, pd.Timestamp):
+            return date.strftime(date_format)
+
+        # Если передана строка
+        date_iso_format = "%Y-%m-%dT%H:%M:%S.%f"
+        date_obj = datetime.strptime(date, date_iso_format)
+        return date_obj.strftime(date_format)
+
     except Exception as e:
         raise ValueError('Проверьте правильность введённой даты.\nФормат должен быть: "%Y-%m-%dT%H:%M:%S.f"') from e

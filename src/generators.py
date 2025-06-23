@@ -11,8 +11,15 @@ def filter_by_currency(transactions_list: list[dict], currency: str) -> Iterator
     """
     for i, transaction in enumerate(transactions_list, 1):
         try:
-            if transaction["operationAmount"]["currency"]["code"] == currency:
-                yield transaction
+            if isinstance(transaction.get("operationAmount"), dict):
+                # Получаем валютный словарь
+                currency_code = transaction.get("operationAmount").get("currency").get("code")
+                if currency_code == currency:
+                    yield transaction
+            else:
+                currency_code = transaction.get("currency_code")
+                if currency_code == currency:
+                    yield transaction
         except Exception as e:
             raise ValueError(f"Транзакция #{i} отсутствует поле: {e}. Данные: {transaction}") from e
 
